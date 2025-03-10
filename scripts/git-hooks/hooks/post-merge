@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# 获取执行脚本时的当前工作目录
+EXECUTION_DIR=$(pwd)
+
+# 引用 common.sh
+. "$EXECUTION_DIR/scripts/common.sh"
+
+# 获取当前分支名称
+branch=$(git rev-parse --abbrev-ref HEAD)
+options_base="master" # 替换为你指定的基准分支名称
+ignore_branches=("branch1" "branch2") # 替换为需要忽略的分支名称数组
+recommend_tag=true
+
+# 检查当前分支是否为指定的基准分支
+if [ "$branch" == "$options_base" ]; then
+    # 获取最近的目标分支名称
+    reflog_output=$(git reflog -1)
+    target_branch=$(echo "$reflog_output" | grep -o '@{[0-9]*}: merge [^:]*:' | sed -E 's/@\{[0-9]+\}: merge ([^:]*):/\1/' | head -n 1)
+
+    # 如果目标分支不存在，或在忽略列表中，退出脚本
+    if [[ -z "$target_branch" ]] || [[ " ${ignore_branches[@]} " =~ " $target_branch " ]]; then
+        exit 0
+    fi
+
+    # 获取基准分支和远程基准分支之间的提交数量
+    diff_count_text=$(git rev-list --count origin/"$options_base".."$options_base")
+    diff_count=$(echo "$diff_count_text")
+
+    # 如果提交差异大于1，显示错误并强制重置基准分支
+    if [ "$diff_count" -gt 1 ]; then
+        echo "${RED}此次合并含${diff_count}条Commit差异, 不符合规范！${NC}"
+        echo "参考文档: ${BLUE}${BOLD}https://qimaitech.feishu.cn/wiki/wikcnSOiZCoGVJ2AQ31c48MCaIe#BmKOd2Q8eow08sxo7EvcacFBnaf${NC}"
+        git fetch origin "$options_base" && git reset --hard origin/"$options_base"
+    else
+        # 如果推荐更新 Tag，则获取当前最新的 Tag，并推荐更新为下一个小版本号
+        if [ "$recommend_tag" == true ]; then
+            current_tag=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null)
+            if [ -n "$current_tag" ]; then
+                # 使用 semver 递增 patch 版本（示例是简单的递增）
+                current_patch=$(echo "$current_tag" | awk -F. '{print $3}')
+                next_patch=$((current_patch + 1))
+                recommend_tag=$(echo "$current_tag" | sed "s/\(.*\.\).*/\1${next_patch}/")
+                echo "检测到当前最新的Tag为：${YELLOW}${current_tag}${NC} 推荐更新为 ==> ${GREEN}${BOLD}${recommend_tag}${NC}"
+                echo "一键更新命令: ${BLUE}git tag ${recommend_tag} && git push origin ${recommend_tag}${NC}"
+            fi
+        fi
+    fi
+fi

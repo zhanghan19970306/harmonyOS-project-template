@@ -1,0 +1,40 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "EntryAbility_label_dev",
+      "value": "label_dev"
+    },
+    {
+      "name": "EntryAbility_label_test",
+      "value": "label_test"
+    },
+    {
+      "name": "EntryAbility_label_beta",
+      "value": "label_beta"
+    },
+    {
+      "name": "EntryAbility_label_pre",
+      "value": "label_pre"
+    },
+    {
+      "name": "EntryAbility_label_gray",
+      "value": "label_gray"
+    },
+    {
+      "name": "permission_LOCATION_reason",
+      "value": "我需要获取用户定位"
+    }
+  ]
+}

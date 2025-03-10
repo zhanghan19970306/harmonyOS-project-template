@@ -1,0 +1,89 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/zh1997/.ohos/config/default_harmonyOS-project-template_wZBA1jWqgTtLhde2tpQ2HP9YeIb_TUTRfz1an_3Or-4=.cer",
+          "storePassword": "0000001A9872B853558F6DBAB4EE2933AE4FFEA0266AA41600DC1A55352391A206B0A0E3A5AA4AF16A87",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001ADCFB1BD633AF57373ED42A904F23893320ECE6D177F8BF14910857F6FBFC14C1D11FD2C4163F",
+          "profile": "/Users/zh1997/.ohos/config/default_harmonyOS-project-template_wZBA1jWqgTtLhde2tpQ2HP9YeIb_TUTRfz1an_3Or-4=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/zh1997/.ohos/config/default_harmonyOS-project-template_wZBA1jWqgTtLhde2tpQ2HP9YeIb_TUTRfz1an_3Or-4=.p12"
+        },
+      },
+      {
+        "name": "release",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "./signingConfigs/release/qmsd_next.cer",
+          "storePassword": "000000184AAB2DF6B4C68EE621AFB919C0D6AE1E689E539B83983E755B3D2E2C88ED45AE3E3EC9FF",
+          "keyAlias": "qmsd",
+          "keyPassword": "0000001842F86875550428556DD18813B53685289AED1275B1FBC0D1A18C5B54C5D11981B7792E05",
+          "profile": "./signingConfigs/release/qmsd_releaseRelease.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "./signingConfigs/release/qmsd_release.p12"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      },
+      {
+        "name": "release",
+        "signingConfig": "release",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "custom_beta"
+      },
+      {
+        "name": "release"
+      },
+      {
+        "name": "debug"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        },
+        {
+          "name": "release",
+          "applyToProducts": [
+            "release"
+          ]
+        }
+      ]
+    },
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "apiType": "stageMode",
+  "buildOption": {
+    "arkOptions": {
+      "types": [
+        "./src/main/global"
+      ]
+    }
+  },
+  "buildOptionSet": [
+    {
+      "name": "custom_beta",
+      "arkOptions": {
+        "buildProfileFields": {
+          "BW_APPID": "wx4ea367d91a01f4f6",
+          "BW_BRANDID": "11688",
+          "BW_H5_SITE": "https://pth5.qmai.co",
+          "BW_REQUEST_URL_PREFIX": "https://webapi.qmai.co"
+        }
+      }
+    },
+    {
+      "name": "release",
+      "arkOptions": {
+        "buildProfileFields": {
+          "BW_APPID": "wx6822e696198e2763",
+          "BW_BRANDID": "217889",
+          "BW_H5_SITE": "https://pth5.qmai.cn",
+          "BW_REQUEST_URL_PREFIX": "https://webapi.qmai.cn"
+        },
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "debug",
+      "arkOptions": {
+        "buildProfileFields": {
+          "BW_APPID": "wx6822e696198e2763",
+          "BW_BRANDID": "217889",
+          "BW_H5_SITE": "https://xbapp.qmai.cn",
+          "BW_REQUEST_URL_PREFIX": "https://webapi.qmai.cn"
+        }
+      }
+    }
+  ],
+  "buildModeBinder": [
+    {
+      "buildModeName": "custom_beta",
+      "mappings": [
+        {
+          "targetName": "default",
+          "buildOptionName": "custom_beta"
+        },
+        {
+          "targetName": "release",
+          "buildOptionName": "debug"
+        }
+      ]
+    },
+  ],
+  "targets": [
+    {
+      "name": "default",
+      "runtimeOS": "HarmonyOS",
+      "output": {
+        "artifactName": "bwcj"
+      }
+    },
+    {
+      "name": "release",
+      "runtimeOS": "HarmonyOS",
+      "output": {
+        "artifactName": "bwcj"
+      }
+    },
+    {
+      "name": "ohosTest"
+    }
+  ]
+}

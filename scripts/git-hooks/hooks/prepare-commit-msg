@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# 获取执行脚本时的当前工作目录
+EXECUTION_DIR=$(pwd)
+
+# 引用 common.sh
+. "$EXECUTION_DIR/scripts/common.sh"
+
+# 检查是否处于合并状态
+if [[ ! -f .git/MERGE_MSG || ! -f .git/MERGE_HEAD ]]; then
+  exit 0
+fi
+
+# 获取当前分支
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+base_branch="master"  # 替换为你的基准分支
+ignore_branch="ignored_branch" # 替换为忽略的分支或提交
+
+# 如果当前分支不是基准分支，退出脚本
+if [[ "$current_branch" != "$base_branch" ]]; then
+  exit 0
+fi
+
+# 读取 MERGE_HEAD 的哈希值
+merge_head=$(cat .git/MERGE_HEAD | tr -d '\n')
+ignore_hashes=$(git rev-parse "$ignore_branch")
+
+# 如果 MERGE_HEAD 是忽略的哈希值之一，退出脚本
+if echo "$ignore_hashes" | grep -q "$merge_head"; then
+  exit 0
+fi
+
+# 读取 MERGE_MSG 并检查是否包含冲突信息
+merge_msg=$(cat .git/MERGE_MSG | tr -d '\n')
+if echo "$merge_msg" | grep -q "# Conflicts:"; then
+  echo "${RED}此次合并含有Conflicts解决后的merge节点, 不符合规范!${NC}"
+  echo "参考文档:${BLUE}${BOLD}https://qimaitech.feishu.cn/wiki/wikcnSOiZCoGVJ2AQ31c48MCaIe#BmKOd2Q8eow08sxo7EvcacFBnaf${NC}" # 替换为实际链接
+  exit 1
+fi
+
+# 获取提交差异数量
+diff_count=$(git rev-list --count "$base_branch..$merge_head")
+if (( diff_count > 1 )); then
+  echo "${RED}此次合并含${diff_count}条Commit差异, 不符合规范!${NC}"
+  echo "参考文档: ${BLUE}${BOLD}hhttps://qimaitech.feishu.cn/wiki/wikcnSOiZCoGVJ2AQ31c48MCaIe#BmKOd2Q8eow08sxo7EvcacFBnaf${NC}" # 替换为实际链接
+  exit 1
+fi

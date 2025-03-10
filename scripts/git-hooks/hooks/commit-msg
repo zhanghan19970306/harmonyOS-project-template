@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# 获取执行脚本时的当前工作目录
+EXECUTION_DIR=$(pwd)
+
+# 引用 common.sh
+. "$EXECUTION_DIR/scripts/common.sh"
+
+# 提交消息文件路径
+msg_path=".git/COMMIT_EDITMSG"
+
+# 读取提交消息内容
+msg=$(cat "$msg_path" | sed 's/#.*//g'  | tr -d '\n')
+
+# 定义提交消息格式的正则表达式
+commit_re="^(revert: )?(feat|fix|docs|dx|style|refactor|perf|test|workflow|build|ci|chore|types|wip|release)(\(.+\))?: .{1,100}$"
+
+# 检查提交消息格式
+if [[ ! "$msg" =~ $commit_re ]]; then
+  echo "${RED}提交内容不符合规范!${NC} 参考文档: ${BLUE}${BOLD}${LINE}https://qimaitech.feishu.cn/wiki/wikcnSOiZCoGVJ2AQ31c48MCaIe#BqQudy8kmowEgixEFu5c83Usnmf${NC}"
+  exit 1
+fi
