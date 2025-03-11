@@ -1,3 +1,4 @@
+import { Api } from "../../api"
 import { preferencesUtils } from "../../shared/preferencesUtils"
 
 @Entry
@@ -7,7 +8,8 @@ struct Index {
 
   async aboutToAppear() {
     await preferencesUtils.get("isFirstLaunch", false)
-    console.log("123")
+    const _ = await Api.Config.getCountryCodeJson()
+    console.log(`___ -> ${JSON.stringify(_)}`)
   }
 
   build() {

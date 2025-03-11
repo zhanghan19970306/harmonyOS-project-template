@@ -12,13 +12,13 @@ export * from "./validateUtils"
 
 export * from "./eventHubUtils"
 
-export * from "./deviceUtils"
-
 export * from "./formatUtils"
 
 export * from "./locationUtils"
 
 export * from "./preferencesUtils"
+
+export * from "./requestUtils"
 
 /**
  * 休眠函数

@@ -9,7 +9,8 @@
     "lodash": "^4.17.21",
     "@ohos/crypto-js": "^2.0.4",
     "@ohos/axios": "^2.2.4",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "@pura/harmony-utils": "^1.2.8"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.19",

@@ -5,3 +5,4 @@ export class BaseVO<T> {
     this.metaData = metaData
   }
 }
+

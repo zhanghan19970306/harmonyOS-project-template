@@ -1,3 +1,4 @@
+// @ts-noCheck
 export class JSBridge {
   /** UA中的特定标识 */
   private UAKind: string;
@@ -236,6 +237,7 @@ namespace JSBridge {
     listenerId: string;
     method: string;
     path: string;
+
     /** 是否只监听一次 */
     only?: boolean;
 
